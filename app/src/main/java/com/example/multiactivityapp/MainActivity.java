@@ -18,6 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TOPIC_TYPE = "topic";
+    public static final String INFO_TYPE = "infoType";
     private Spinner topicSpinner;
     private Button overviewButton;
     private Button detailsButton;
@@ -58,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Create an Intent to start the Overview activity
             Intent intent = new Intent(MainActivity.this, Overview.class);
-            intent.putExtra("topic", selectedTopic);
-            intent.putExtra("infoType", "overview");
+            intent.putExtra(TOPIC_TYPE, selectedTopic);
+            intent.putExtra(INFO_TYPE, "overview");
             startActivity(intent);
 
         } // onClick for overview
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
             String selectedTopic = topicSpinner.getSelectedItem().toString();
             Intent intent = new Intent(MainActivity.this, Overview.class);
-            intent.putExtra("topic", selectedTopic);
-            intent.putExtra("infoType", "details");
+            intent.putExtra(TOPIC_TYPE, selectedTopic);
+            intent.putExtra(INFO_TYPE, "details");
             startActivity(intent);
 
         } // onClick for details

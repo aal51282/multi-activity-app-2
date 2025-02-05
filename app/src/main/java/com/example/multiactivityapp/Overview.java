@@ -11,9 +11,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Overview extends AppCompatActivity {
 
@@ -38,13 +39,17 @@ public class Overview extends AppCompatActivity {
 
         // Get the topic and text from MainActivity
         Intent intent = getIntent();
-        String topic = intent.getStringExtra("topic");
-        String infoType = intent.getStringExtra("infoType");
+        String topic = intent.getStringExtra(MainActivity.TOPIC_TYPE);
+        String infoType = intent.getStringExtra(MainActivity.INFO_TYPE);
 
         // Determine the appropriate raw file
         int rawInfo = getRawInfo(topic, infoType);
         String infoText = readRawTextFile(rawInfo);
         textInfo.setText(infoText);
+
+        // Determine which image to display
+        int imageResInfo = getImageInfo(topic, infoType);
+        imageInfo.setImageResource(imageResInfo);
 
     } // onCreate
 
@@ -53,30 +58,116 @@ public class Overview extends AppCompatActivity {
      */
     private int getRawInfo(String topic, String infoType) {
         if (topic.equals("Computer Science")) {
-            return infoType.equals("overview") ? R.raw.cs_overview : R.raw.cs_details;
-        }
+            if (infoType.equals("overview")) {
+                return R.raw.cs_overview;
+            } else {
+                return R.raw.cs_details;
+            }
+        } else if (topic.equals("Genetics")) {
+            if (infoType.equals("overview")) {
+                return R.raw.genetics_overview;
+            } else {
+                return R.raw.genetics_details;
+            }
+        } else if (topic.equals("Economy")) {
+            if (infoType.equals("overview")) {
+                return R.raw.economy_overview;
+            } else {
+                return R.raw.economy_details;
+            }
+        } else if (topic.equals("Chemistry")) {
+            if (infoType.equals("overview")) {
+                return R.raw.chemistry_overview;
+            } else {
+                return R.raw.chemistry_details;
+            }
+        } else if (topic.equals("Mathematics")) {
+            if (infoType.equals("overview")) {
+                return R.raw.mathematics_overview;
+            } else {
+                return R.raw.mathematics_details;
+            }
+        } // if
+
+        // Message if no raw file exists
         return R.raw.default_info;
+
     } // getRawInfo
 
-
     /**
-     * Reads a text file from the raw resources.
+     * Given the topic and infoType this helper method can read a text file from the raw resources.
      */
-    private String readRawTextFile(int resId) {
-        InputStream inputStream = getResources().openRawResource(resId);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        int i;
+    private String readRawTextFile(int res) {
+        // Open the raw file
+        InputStream inputStream = getResources().openRawResource(res);
+
+        // Create a buffer reader
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        // Use a StringBuilder to accumulate lines from the file
+        StringBuilder stringBuilder = new StringBuilder();
+
+        String line;
         try {
-            i = inputStream.read();
-            while (i != -1) {
-                byteArrayOutputStream.write(i);
-                i = inputStream.read();
-            }
-            inputStream.close();
+            // Read the file line by line
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            } // while
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return byteArrayOutputStream.toString();
-    }
+        } finally {
+            // Always close the reader to free resources
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } // try
+        } // try
+
+        // Return the file content as a String
+        return stringBuilder.toString();
+
+    } // readRawTextFile
+
+    /**
+     * Determines the appropriate image file.
+     */
+    private int getImageInfo(String topic, String infoType) {
+        if (topic.equals("Computer Science")) {
+            if (infoType.equals("overview")) {
+                return R.drawable.cs_overview;
+            } else {
+                return R.drawable.cs_details;
+            }
+        } else if (topic.equals("Genetics")) {
+            if (infoType.equals("overview")) {
+                return R.drawable.genetics_overview;
+            } else {
+                return R.drawable.genetics_details;
+            }
+        } else if (topic.equals("Economy")) {
+            if (infoType.equals("overview")) {
+                return R.drawable.economy_overview;
+            } else {
+                return R.drawable.economy_details;
+            }
+        } else if (topic.equals("Chemistry")) {
+            if (infoType.equals("overview")) {
+                return R.drawable.chemistry_overview;
+            } else {
+                return R.drawable.chemistry_details;
+            }
+        } else if (topic.equals("Mathematics")) {
+            if (infoType.equals("overview")) {
+                return R.drawable.mathematics_overview;
+            } else {
+                return R.drawable.mathematics_details;
+            }
+        } // if
+
+        // Default image if no image exists
+        return R.drawable.default_image;
+
+    } // getImageInfo
 
 } // Overview
