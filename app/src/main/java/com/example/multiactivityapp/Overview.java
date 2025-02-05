@@ -36,5 +36,29 @@ public class Overview extends AppCompatActivity {
         String topic = intent.getStringExtra("topic");
         String infoType = intent.getStringExtra("infoType");
 
+        // Determine the appropriate raw file
+        int rawInfo = getRawInfo(topic, infoType);
+        String infoText = readRawTextFile(rawInfo);
+        textInfo.setText(infoText);
+
     } // onCreate
+
+    /**
+     * Determines the appropriate raw text file.
+     */
+    private int getRawInfo(String topic, String infoType) {
+        if (topic.equals("Computer Science")) {
+            return infoType.equals("overview") ? R.raw.cs_overview : R.raw.cs_details;
+        }
+        return R.raw.default_info;
+    } // getRawInfo
+
+
+    /**
+     * Reads a text file from the raw resources.
+     */
+    private String readRawTextFile(int resId) {
+
+    }
+
 } // Overview
