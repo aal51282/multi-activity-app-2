@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MultiActivityApp</string>
+
+    <!-- Spinner List of Majors -->
+    <string-array name="majors_array">
+        <item>Computer Science</item>
+        <item>Genetics</item>
+        <item>Economy</item>
+        <item>Chemistry</item>
+        <item>Mathematics</item>
+    </string-array>
+
 </resources>
