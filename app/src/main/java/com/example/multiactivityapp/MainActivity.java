@@ -46,18 +46,23 @@ public class MainActivity extends AppCompatActivity {
     } // onCreate
 
     /**
-     * Private inner class that provides the onClick method implementation for overview
+     * Private inner class that provides the onClick method implementation for overview.
+     * When the button is clicked it goes to the specified overview.
      */
     private class OverviewListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
+            // Retrieves the selected topic as a String
             String selectedTopic = topicSpinner.getSelectedItem().toString();
+
+            // Create an Intent to start the Overview activity
             Intent intent = new Intent(MainActivity.this, Overview.class);
             intent.putExtra("topic", selectedTopic);
             intent.putExtra("infoType", "overview");
             startActivity(intent);
-        } // onClick
+
+        } // onClick for overview
     } // OverviewListener
 
     /**
@@ -68,8 +73,12 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             String selectedTopic = topicSpinner.getSelectedItem().toString();
+            Intent intent = new Intent(MainActivity.this, Overview.class);
+            intent.putExtra("topic", selectedTopic);
+            intent.putExtra("infoType", "details");
+            startActivity(intent);
 
-        }
-    }
+        } // onClick for details
+    } // DetailsListener
 
 } // MainActivity
